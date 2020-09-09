@@ -34,7 +34,7 @@ class Users {
 
         return new Promise((resolve, reject) => {
             this.db.query(
-                `SELECT username, email, password FROM ?? ${'WHERE ?? = ?'.repeat(numberOfIdentifiers)}`,
+                `SELECT username, email, password FROM ?? WHERE ${Array(numberOfIdentifiers).fill('?? = ?').join(' OR ')}`,
                 [table, ...this.turnObjectTo1dArray(identifiersValues)],
                 (err, rows) => {
                     if (err)
@@ -74,6 +74,32 @@ class Users {
                 }
             );
         });
+    }
+
+    async authenticateUser(username, password) {        
+        try {
+            var userData = await this.getUser({username: username});
+        }
+        catch {
+            return {
+                authenticated: false,
+                reason: 'internal error'
+            };
+        }
+
+        if (userData.type === 'error') return {
+            authenticated: false,
+            reason: 'username'
+        };
+        
+        if (!bcrypt.compareSync(password, userData.data.password)) return {
+            authenticated: false,
+            reason: 'password'
+        };
+
+        return {
+            authenticated: true,
+        };
     }
 
     

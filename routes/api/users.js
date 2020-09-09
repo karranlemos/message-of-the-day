@@ -4,27 +4,35 @@ const Users = require('../../model/users');
 const router = express.Router();
 const users = Users.getInstance();
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
     if (!req.body || !req.body.username || !req.body.password)
         return res.status(400).json({
             message: "'username' and 'password' must be provided..."
         });
     const username = req.body.username;
     const password = req.body.password;
-    users.getUser({username: username})
-        .then(({type, data}) => {
-            if (type === 'error')
+
+    const authentication = await users.authenticateUser(username, password);
+
+    if (!authentication.authenticated) {
+        switch (authentication.reason) {
+            case 'username':
                 return res.status(400).json({
-                    message: data
+                    message: "Username doesn't exist..."
                 });
-            console.log(data);
-            return res.json({
-                message: 'Logged in successfully!'
-            });
-        })
-        .catch(err => {
-            return res.status(500).send();
-        })
+            case 'password':
+                return res.status(401).json({
+                    message: "Wrong password..."
+                });
+            case 'internal error':
+            default:
+                return res.status(500).send();
+        }
+    }
+
+    return res.json({
+        message: 'Logged in successfully!'
+    });
 });
 
 router.post('/register', async (req, res) => {
@@ -35,6 +43,27 @@ router.post('/register', async (req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+
+    try {
+        var user = await users.getUser({
+            username,
+            email
+        });
+    }
+    catch {
+        return res.status(500).send();
+    }
+    
+    if (user.type === 'success') {
+        let message;
+        if (user.data.username === username)
+            message = 'Username already exists...';
+        else if (user.data.email === email)
+            message = 'Email already exists...';
+        return res.status(400).json({
+            message: message
+        });
+    }
 
     try {
         await users.registerUser(username, email, password);
