@@ -89,9 +89,23 @@ router.put('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    return res.json({
-        message: 'Current message deleted successfully.'
-    });
+    const id = req.params.id;
+    messages.deleteMessage(id)
+        .then(data => {
+            if (data.affectedRows === 0)
+                return res.status(404).json({
+                    message: `Message of ID '${id}' not found...`
+                });
+            return res.json({
+                message: 'Current message deleted successfully.'
+            });
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: "Could not delete message."
+            });
+        })
+    ;
 });
 
 

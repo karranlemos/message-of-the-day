@@ -70,6 +70,20 @@ class Messages {
         });
     }
 
+    deleteMessage(id) {
+        return new Promise((resolve, reject) => {
+            this.db.query(
+                'DELETE FROM ?? WHERE user_id = ?',
+                [table, id],
+                (err, data) => {
+                    if (err)
+                        return reject(err);
+                    resolve(data);
+                }
+            );
+        });
+    }
+
     static getInstance() {
         if (!messagesSingleton)
             messagesSingleton = new Messages()
