@@ -56,6 +56,20 @@ class Messages {
         });
     }
 
+    updateMessage(id, new_message) {
+        return new Promise((resolve, reject) => {
+            this.db.query(
+                'UPDATE ?? SET message = ? WHERE user_id = ?',
+                [table, new_message, id],
+                (err, data) => {
+                    if (err)
+                        return reject(err);
+                    resolve(data);
+                }
+            );
+        });
+    }
+
     static getInstance() {
         if (!messagesSingleton)
             messagesSingleton = new Messages()

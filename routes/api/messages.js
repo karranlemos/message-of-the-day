@@ -67,11 +67,25 @@ router.put('/:id', (req, res) => {
         });
     }
 
-    // TODO put new message
-    
-    return res.json({
-        message: 'Message updated successfully.'
-    });
+    const id = req.params.id;
+    const new_message = req.body.new_message;
+
+    messages.updateMessage(id, new_message)
+        .then(data => {
+            if (data.affectedRows === 0)
+                return res.status(404).json({
+                    message: `Message of ID '${id}' not found...`
+                });
+            return res.json({
+                message: "Message updated successfully!"
+            });
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: "Could not update message"
+            });
+        })
+    ;
 })
 
 router.delete('/:id', (req, res) => {
