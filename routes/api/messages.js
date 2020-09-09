@@ -1,8 +1,9 @@
 const express = require('express');
+const Messages = require('../../model/messages');
 
 const router = express.Router();
 
-
+const messages = Messages.getInstance();
 
 router.get('/', (req, res) => {
     res.status(400).json({
@@ -10,11 +11,25 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-    return res.json({
-        id: 12,
-        message: 'Make this day worth it!'
-    });
+router.get('/:id', async (req, res) => {
+    messages.getMessage(req.params.id)
+        .then(message => {
+            if (!message) {
+                return res.status(404).json({
+                    message: `Message from user of id ${req.params.id} not found.`
+                });
+            }
+            return res.json({
+                message: message
+            });
+        })
+        .catch (errorMessage => {
+            console.log('error');
+            return res.status(500).json({
+                message: errorMessage
+            });
+        })
+    ;
 });
 
 router.post('/:id', (req, res) => {

@@ -16,4 +16,4 @@ app.get('/', (req, res) => {
 
 app.use('/api/messages', messagesAPI);
 
-app.listen(PORT);
+app.listen(PORT, () => console.log(`Server started on port ${PORT}...`));
