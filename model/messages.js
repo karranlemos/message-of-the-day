@@ -32,15 +32,27 @@ class Messages {
                 [table, id],
                 (err, rows, fields) => {
                     if (err)
-                        return reject(String(err));
+                        return reject(err);
                     if (rows.length === 0)
                         return resolve(false);
 
-                    if (!rows[0].message)
-                        return reject('Missing content');
                     return resolve(rows[0].message);
                 }
-            )
+            );
+        });
+    }
+
+    createMessage(id, message) {
+        return new Promise((resolve, reject) => {
+            this.db.query(
+                'INSERT INTO ?? (user_id, message) VALUES (?, ?)',
+                [table, id, message],
+                (err, data) => {
+                    if (err)
+                        return reject(err);
+                    resolve(data);
+                }
+            );
         });
     }
 
