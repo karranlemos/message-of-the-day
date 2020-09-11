@@ -20,20 +20,20 @@ router.post(
             
             if (!user) {
                 if (!info)
-                    return res.status(500).send();
+                    return res.status(500).json({message: 'Internal Server Error'});
                 
                 const reason = info.reason || false;
                 switch (reason) {
                     case 'username':
                         return res.status(400).json({message: info.message});
                     case 'password':
-                        return res.status(401).json({message: {message: info.message}});
+                        return res.status(401).json({message: info.message});
                 }
                 
                 if (info.message)
                     return res.status(400).json({message: info.message});
 
-                return res.status(500).send();
+                return res.status(500).json({message: 'Internal Server Error'});
             }
             
             req.logIn(user, (err) => {
