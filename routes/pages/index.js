@@ -7,13 +7,13 @@ const router = express.Router();
 router.get(
     '/',
     authHelpers.ensureNotAuthenticated,
-    (req, res) => res.render('index')
+    (req, res) => res.render('index', {layout: 'layouts/entry-layout'})
 );
 
 router.get(
     '/register',
     authHelpers.ensureNotAuthenticated,
-    (req, res) => res.render('register')
+    (req, res) => res.render('register', {layout: 'layouts/entry-layout'})
 );
 
 router.get(
