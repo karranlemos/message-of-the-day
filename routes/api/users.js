@@ -10,19 +10,30 @@ const users = Users.getInstance();
 router.post(
     '/login',
     authHelpers.ensureNotAuthenticated,
+    authHelpers.ensureCredentialsAvailable({
+        username: true,
+        password: true
+    }),
     async (req, res, next) => {
         passport.authenticate('local', (err, user, info) => {
             if (err) return next(err);
             
-            if (!user && info.reason) {
-                switch (info.reason) {
+            if (!user) {
+                if (!info)
+                    return res.status(500).send();
+                
+                const reason = info.reason || false;
+                switch (reason) {
                     case 'username':
                         return res.status(400).json({message: info.message});
                     case 'password':
                         return res.status(401).json({message: {message: info.message}});
-                    default:
-                        return res.status(500).send();
                 }
+                
+                if (info.message)
+                    return res.status(400).json({message: info.message});
+
+                return res.status(500).send();
             }
             
             req.logIn(user, (err) => {
@@ -36,11 +47,12 @@ router.post(
 
 router.post('/register', 
     authHelpers.ensureNotAuthenticated,
+    authHelpers.ensureCredentialsAvailable({
+        username: true,
+        password: true,
+        email: true,
+    }),
     async (req, res) => {
-        if (!req.body || !req.body.username || !req.body.password || !req.body.email)
-            return res.status(400).json({
-                message: "'username', 'password' and 'email' must be provided..."
-            });
         const username = req.body.username;
         const email = req.body.email;
         const password = req.body.password;
