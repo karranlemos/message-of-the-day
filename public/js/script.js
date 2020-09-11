@@ -184,6 +184,53 @@ class RegisterForm {
 
 
 
+const _STATIC_LOGOUT = {
+    className: 'js-logout',
+    logoutUrl: '/api/users/logout',
+    instances: []
+};
+class Logout {
+    constructor(logoutButton) {
+        this.logoutButton = logoutButton;
+        
+        if (!this.logoutButton.classList.contains(_STATIC_LOGOUT.className))
+            throw 'Wrong class...';
+
+        this.logoutButton.addEventListener('click', this.onClick);
+    }
+
+    onClick = () => {
+        const callbacks = {
+            checkSuccess: (status) => (status === 200),
+            onSuccess: () => Helpers.reloadPage()
+        };
+
+        const data = {
+            method: 'post',
+            url: _STATIC_LOGOUT.logoutUrl
+        };
+        Helpers.sendData(data, callbacks);
+    }
+
+
+
+    static initAll() {
+        const buttons = document.querySelectorAll(`.${_STATIC_LOGOUT.className}`);
+        var i = 1;
+        for (const button of buttons) {
+            try {
+                _STATIC_LOGOUT.instances.push(new Logout(button));
+            }
+            catch (err) {
+                console.log(`Logout[${i}]: "${err}"`);
+            }
+            i++;
+        }
+    }
+}
+
+
+
 class Helpers {
     constructor() {
         throw 'Static Class';
@@ -234,4 +281,5 @@ class Helpers {
 document.addEventListener('DOMContentLoaded', () => {
     LoginForm.initAll();
     RegisterForm.initAll();
+    Logout.initAll();
 });
