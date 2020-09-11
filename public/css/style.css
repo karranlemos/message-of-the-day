@@ -48,6 +48,10 @@
     width: 100%;
 }
 
+.split-container .primary-side, .split-container .secondary-side {
+    min-height: 100vh;
+}
+
 .split-container .primary-side {
     flex: 1 1;
     display: flex;
@@ -70,6 +74,21 @@
     background-size: cover;
 
     max-width: 50%
+}
+
+@media only screen and (max-width: 700px) {
+    .split-container {
+        flex-direction: column;
+    }
+
+    .split-container .primary-side, .split-container .secondary-side {
+        flex: 0 0;
+        max-width: 100%
+    }
+
+    .split-container .secondary-side {
+        display: none;
+    }
 }
 
 
