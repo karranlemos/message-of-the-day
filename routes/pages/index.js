@@ -11,6 +11,12 @@ router.get(
 );
 
 router.get(
+    '/register',
+    authHelpers.ensureNotAuthenticated,
+    (req, res) => res.render('register')
+);
+
+router.get(
     '/dashboard',
     authHelpers.ensureAuthenticated,
     (req, res) => res.render('dashboard')

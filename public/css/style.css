@@ -20,7 +20,9 @@
     outline: none;
     height: 45px;
 
-    color: white;
+    text-decoration: none !important;
+
+    color: white !important;
 }
 
 .btn-primary {
@@ -100,11 +102,11 @@
     gap: 10px;
 }
 
-.form-container .form-link {
-    display: inline-block;
-    width: 100%;
+.form-container .item-container {
     text-align: center;
-    
+}
+
+.form-container a {    
     color: var(--form-link-color);
 }
 
@@ -131,4 +133,9 @@
 
 .message-box.error {
     background-color: rgb(63, 0, 0);
+}
+
+.message-box a {
+    color: white;
+    font-weight: bold;
 }

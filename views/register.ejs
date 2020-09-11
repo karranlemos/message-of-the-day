@@ -3,21 +3,26 @@ Message of the Day
 <%- contentFor('body') %>
 <div class="split-container">
   <div class="primary-side">
-    <div class="js-login-form form-container">
+    <div class="js-register-form form-container">
       <div class="messages"></div>
-      <form action="/api/users/login" method="post">
+      <form action="/api/users/register" method="post">
+        <div class="item-container">
+          <input type="email" name="email" placeholder="Email" class="form-item">
+        </div>
         <div class="item-container">
           <input type="text" name="username" placeholder="Username" class="form-item">
         </div>
         <div class="item-container">
           <input type="password" name="password" placeholder="Password" class="form-item">
         </div>
+        <div class="item-container">
+          <input type="password" name="repeat_password" placeholder="Repeat Password" class="form-item">
+        </div>
         <div class="item-container buttons-container">
-          <button type="submit" class="btn btn-primary form-item">Login</button>
-          <a href="/register" class="btn btn-secondary form-item">Register</a>
+          <button type="submit" class="btn btn-primary form-item">Register</button>
         </div>
         <div class="item-container">
-          <a href="/reset-password" class="form-link">Forgot Password?</a>
+          <p>Already has an account? <a href="/">Login</a>.</p>
         </div>
       </form>
     </div>
