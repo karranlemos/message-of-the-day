@@ -1,7 +1,19 @@
 <%- contentFor('titleTag') %>
 Message of the Day
 <%- contentFor('body') %>
-<div class="container">
-  <h1>Dashboard</h1>
-  <button type="button" class="js-logout">Logout</button>
+<div class="dashboard-container">
+  <nav id="nav">
+    <div class="container">
+      <button class="btn menu-btn">Message of the Day</button>
+      <button type="button" class="js-logout btn menu-btn">Logout</button>
+    </div>
+  </nav>
+  <div class="container full-center">
+    <div class="form-container message-form">
+      <form action="/api/messages/<%=id%>" method="post">
+        <input type="text" name="message" placeholder="Your message here..." disabled>
+        <button type="submit" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+  </div>
 </div>

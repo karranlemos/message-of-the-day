@@ -10,7 +10,7 @@
     box-sizing: border-box;
 }
 
-.btn {
+.btn, button {
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -21,8 +21,15 @@
     height: 45px;
 
     text-decoration: none !important;
+    padding: 20px;
 
+    background-color: var(--complementary-color);
     color: white !important;
+}
+
+.btn:focus, button:focus {
+    border: none;
+    outline: none;
 }
 
 .btn-primary {
@@ -34,13 +41,22 @@
 }
 
 .outer-container {
-    display: flex;
-    
     min-width: 100%;
     min-height: 100vh;
     background-color: var(--bg-color);
 }
 
+.container {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.full-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 
 .split-container {
@@ -89,6 +105,42 @@
     .split-container .secondary-side {
         display: none;
     }
+}
+
+
+
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--dashboard-bg-color);
+    background-image: url('../images/backgrounds/home-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.dashboard-container .container {
+    flex: 1 0;
+}
+
+
+
+.central-container {
+    flex: 1 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 100%;
+}
+
+.central-container .content {
+    max-width: 700px;
+    width: 100%;
+    min-height: 400px;
+    height: 100%;
 }
 
 
@@ -157,4 +209,49 @@
 .message-box a {
     color: white;
     font-weight: bold;
+}
+
+
+
+nav#nav {
+    background-color: var(--navbar-bg-color);
+    height: 80px;
+}
+
+nav#nav .container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+}
+
+nav#nav .container button.menu-btn {
+    background-color: transparent;
+    height: 100%;
+}
+
+
+
+.message-form {
+    max-width: 100%;
+    padding: 50px;
+}
+
+.message-form input[name=message] {
+    height: 100px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+    padding: 20px;
+    font-size: 40px;
+    
+    border: none;
+    outline: none;
+}
+
+.message-form input[name=message]:disabled {
+    background-color: transparent;
+    color: black;
+}
+
+.message-form button {
+    height: 70px;
 }

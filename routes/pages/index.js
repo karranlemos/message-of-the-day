@@ -19,7 +19,7 @@ router.get(
 router.get(
     '/dashboard',
     authHelpers.ensureAuthenticated,
-    (req, res) => res.render('dashboard')
+    (req, res) => res.render('dashboard', {id: req.user.id})
 );
 
 router.use((req, res) => {
