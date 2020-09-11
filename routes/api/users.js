@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const Users = require('../../model/Users');
-const authHelpers = require('../../config/auth');
+const authHelpers = require('./helpers/auth');
 
 const router = express.Router();
 const users = Users.getInstance();

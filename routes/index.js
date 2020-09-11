@@ -1,14 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const messagesAPI = require('./api/messages');
-const usersAPI = require('./api/users');
+const api = require('./api/index');
+const pages = require('./pages/index');
 
-router.use('/api/messages', messagesAPI);
-router.use('/api/users', usersAPI);
-
-router.get('/', (req, res) => {
-    res.send('hello there');
-});
+router.use('/api', api);
+router.use('/', pages);
 
 module.exports = router;

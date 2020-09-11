@@ -1,7 +1,7 @@
 const express = require('express');
 
 const Messages = require('../../model/Messages');
-const authHelpers = require('../../config/auth');
+const authHelpers = require('./helpers/auth');
 
 const router = express.Router();
 const messages = Messages.getInstance();

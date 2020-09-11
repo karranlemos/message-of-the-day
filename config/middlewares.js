@@ -1,5 +1,6 @@
 const express = require('express');
 const expressSession = require('express-session');
+const expressLayouts = require('express-ejs-layouts');
 const passport = require('passport');
 
 module.exports = (app) => {
@@ -14,4 +15,8 @@ module.exports = (app) => {
     }));
     app.use(passport.initialize());
     app.use(passport.session());
+
+    app.use(expressLayouts);
+    app.set('view engine', 'ejs');
+    app.set('layout', 'layouts/layout');
 }
