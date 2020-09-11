@@ -1,0 +1,13 @@
+:root {
+    --bg-color: rgb(250, 250, 250);
+
+    --primary-color: #584f84;
+    --secondary-color: #876a96;
+    --complementary-color: #38486f;
+    
+    --form-link-color:rgb(44, 58, 94);
+
+    --default-fonts: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+}

@@ -1,0 +1,105 @@
+@import 'vars.css';
+@import 'fonts.css';
+@import 'normalize.css';
+
+:root {
+    font-family: var(--default-fonts);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    height: 45px;
+
+    color: white;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+}
+
+.outer-container {
+    display: flex;
+    
+    min-width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+}
+
+
+
+.split-container {
+    display: flex;
+    width: 100%;
+}
+
+.split-container .primary-side {
+    flex: 1 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 40px;
+
+    background-color: var(--bg-color);
+
+    max-width: 50%
+}
+
+.split-container .secondary-side {
+    flex: 1 1;
+    background-color: var(--secondary-color);
+    background-image: url('../images/backgrounds/home-bg.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    max-width: 50%
+}
+
+
+
+.form-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-container .form-item {
+    width: 100%;
+    padding: 10px;
+}
+
+.form-container input.form-item {
+    height: 50px;
+    outline: none;
+    border: 2px solid rgb(194, 194, 194);
+}
+
+.form-container .buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-container .form-link {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    
+    color: var(--form-link-color);
+}

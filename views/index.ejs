@@ -1,4 +1,25 @@
 <%- contentFor('titleTag') %>
 Message of the Day
 <%- contentFor('body') %>
-<h1>Hello there!</h1>
+<div class="split-container">
+  <div class="primary-side">
+    <div class="form-container">
+      <form action="/api/users/login" method="post">
+        <div class="item-container">
+          <input type="text" name="username" placeholder="Username" class="form-item">
+        </div>
+        <div class="item-container">
+          <input type="password" name="password" placeholder="Password" class="form-item">
+        </div>
+        <div class="item-container buttons-container">
+          <button type="submit" class="btn btn-primary form-item">Login</button>
+          <button class="btn btn-secondary form-item">Register</button>
+        </div>
+        <div class="item-container">
+          <a href="/reset-password" class="form-link">Forgot Password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="secondary-side"></div>
+</div>
