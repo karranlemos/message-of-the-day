@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 
-const Database = require('./database');
+const Database = require('./helpers/database');
 
 const table = 'users';
 
@@ -34,7 +34,7 @@ class Users {
 
         return new Promise((resolve, reject) => {
             this.db.query(
-                `SELECT username, email, password FROM ?? WHERE ${Array(numberOfIdentifiers).fill('?? = ?').join(' OR ')}`,
+                `SELECT id, username, email, password FROM ?? WHERE ${Array(numberOfIdentifiers).fill('?? = ?').join(' OR ')}`,
                 [table, ...this.turnObjectTo1dArray(identifiersValues)],
                 (err, rows) => {
                     if (err)
@@ -80,31 +80,38 @@ class Users {
         try {
             var userData = await this.getUser({username: username});
         }
-        catch {
+        catch (err) {
             return {
                 authenticated: false,
-                reason: 'internal error'
+                reason: 'internal error',
+                error: err,
+                message: 'Internal Server Error'
             };
         }
 
         if (userData.type === 'error') return {
             authenticated: false,
-            reason: 'username'
+            reason: 'username',
+            message: 'User not found'
         };
         
         if (!bcrypt.compareSync(password, userData.data.password)) return {
             authenticated: false,
-            reason: 'password'
+            reason: 'password',
+            message: 'Password incorrect'
         };
 
         return {
             authenticated: true,
+            user: userData.data
         };
     }
 
     
     
     getIdentifiersObject(identifiersProvided, exceptionIfEmpty=false) {
+        if (typeof identifiersProvided === 'string')
+            return { username: identifiersProvided };
         const identifiers = ['username', 'email', 'id'];
         const identifiersValues = {};
         for (const identifier of identifiers)

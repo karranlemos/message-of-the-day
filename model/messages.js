@@ -1,4 +1,4 @@
-const Database = require('./database');
+const Database = require('./helpers/database');
 
 const table = 'messages';
 
