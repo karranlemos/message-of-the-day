@@ -309,7 +309,6 @@ class MessageForm {
             }
         }
 
-        console.log('hye')
         Helpers.sendData(data, callbacks);
     };
 
