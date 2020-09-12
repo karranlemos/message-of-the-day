@@ -42,9 +42,18 @@ module.exports = (app) => {
         next();
     })
 
+    app.use('/api', (err, req, res, next) => {
+        req.logout();
+        
+        return res.status(500).json({
+            message: 'Internal Server Error'
+        });
+    })
+
     app.use((err, req, res, next) => {
         req.logout();
-        return res.status(err.status || 500).render('error', {
+        
+        return res.status(500).render('error', {
             error: 'Internal Server Error'
         });
     })
