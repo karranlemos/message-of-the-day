@@ -27,6 +27,10 @@
     color: white !important;
 }
 
+.btn-big {
+    min-height: 60px;
+}
+
 .btn:focus, button:focus {
     border: none;
     outline: none;
@@ -52,10 +56,28 @@
     margin: 0 auto;
 }
 
+.content {
+    background-color: var(--bg-color);
+}
+
 .full-center {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+}
+
+.full-center .content {
+    max-width: 700px;
+    width: 100%;
+    min-height: 200px;
+    padding: 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 
@@ -127,20 +149,13 @@
 
 
 
-.central-container {
-    flex: 1 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 100%;
-}
-
-.central-container .content {
+.central-container.content {
     max-width: 700px;
     width: 100%;
     min-height: 400px;
     height: 100%;
+
+    background-color: var(--bg-color);
 }
 
 

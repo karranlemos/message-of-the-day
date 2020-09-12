@@ -94,7 +94,6 @@ router.post('/register',
 
 router.post(
     '/logout',
-    authHelpers.ensureAuthenticated,
     (req, res) => {
         req.logout();
         res.json({message: 'Logged out successfully!'});
