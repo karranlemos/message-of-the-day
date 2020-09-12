@@ -238,6 +238,8 @@ nav#nav .container button.menu-btn {
 
 .message-form input[name=message] {
     height: 100px;
+    width: 100%;
+    
     background-color: rgba(0, 0, 0, 0.1);
     color: black;
     padding: 20px;
@@ -247,7 +249,7 @@ nav#nav .container button.menu-btn {
     outline: none;
 }
 
-.message-form input[name=message]:disabled {
+.message-form input[name=message]:read-only {
     background-color: transparent;
     color: black;
 }

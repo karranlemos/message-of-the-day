@@ -75,9 +75,9 @@ router.put(
     authHelpers.ensureAuthenticated,
     ensureUserAuthorized,
     (req, res) => {
-        if (!req.body || !req.body.new_message) {
+        if (!req.body || req.body.new_message === undefined) {
             return res.status(400).json({
-                message: "Must provide a JSON with a 'new_message'."
+                message: "Must provide 'new_message'."
             });
         }
 

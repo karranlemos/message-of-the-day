@@ -64,7 +64,14 @@ class Messages {
                 (err, data) => {
                     if (err)
                         return reject(err);
-                    resolve(data);
+                    
+                    if (data.affectedRows > 0)
+                        return resolve(data);
+                    
+                    this.createMessage(id, new_message)
+                        .then(data => resolve(data))
+                        .catch(err => reject(err))
+                    ;
                 }
             );
         });

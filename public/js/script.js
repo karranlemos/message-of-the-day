@@ -231,6 +231,129 @@ class Logout {
 
 
 
+const _STATIC_MESSAGE_FORM = {
+    className: 'js-message-form',
+    formUrl: '',
+    instances: []
+};
+class MessageForm {
+    constructor(formContainer) {
+        this.state = {
+            serverError: false,
+            allowedEdit: false
+        };
+
+        this.formContainer = formContainer;
+        
+        if (!this.formContainer.classList.contains(_STATIC_MESSAGE_FORM.className))
+            throw 'Wrong class...';
+
+        this.form = this.formContainer.querySelector('form');
+        if (!this.form)
+            throw 'Form not found...';
+        
+        this.messageInput = this.form.querySelector('input[name=message]');
+        if (!this.messageInput)
+            throw "'input[name=message]' not found...";
+
+        this.form.addEventListener('submit', this.onSubmit);
+        this.messageInput.addEventListener('click', this.editMessage);
+
+        this.fetchMessage();
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault();
+
+        const callbacks = {
+            checkSuccess: (status) => (status === 200),
+            onSuccess: this.freezeMessage
+        };
+
+        const data = {
+            method: 'put',
+            url: _STATIC_MESSAGE_FORM.formUrl,
+            params: `new_message=${this.messageInput.value}`
+        };
+
+        if (data.url === '')
+            return;
+
+        Helpers.sendData(data, callbacks);
+    };
+
+
+    fetchMessage = () => {
+        const data = {
+            method: 'get',
+            url: _STATIC_MESSAGE_FORM.formUrl
+        };
+        
+        const callbacks = {
+            checkSuccess: (status) => (status === 200),
+            onSuccess: (status, jsonString) => {
+                try {
+                    var jsonString = JSON.parse(jsonString);
+                }
+                catch {
+                    return this.blockForm();
+                }
+                this.messageInput.value = jsonString.message;
+                this.allowEdit()
+            },
+            onFailure: (status) => {
+                if (status === 404)
+                    return this.allowEdit();
+                
+                this.blockForm()
+            }
+        }
+
+        console.log('hye')
+        Helpers.sendData(data, callbacks);
+    };
+
+    blockForm = () => {
+        this.state.serverError = true;
+    };
+
+    allowEdit = () => {
+        this.state.allowedEdit = true;
+        this.messageInput.placeholder = "Your message here...";
+    };
+
+
+
+    editMessage = () => {
+        if (this.state.allowedEdit)
+            this.messageInput.removeAttribute('readonly');
+    };
+
+    freezeMessage = () => {
+        this.messageInput.setAttribute('readonly', '');
+    };
+
+
+
+    static initAll() {
+        _STATIC_MESSAGE_FORM.formUrl = `/api/messages/${fromServer.userdata.id }`;
+
+        const forms = document.querySelectorAll(`.${_STATIC_MESSAGE_FORM.className}`);
+        var i = 1;
+        for (const form of forms) {
+            try {
+                _STATIC_MESSAGE_FORM.instances.push(new MessageForm(form));
+            }
+            catch (err) {
+                console.log(`Logout[${i}]: "${err}"`);
+            }
+            i++;
+        }
+    }
+}
+
+
+
 class Helpers {
     constructor() {
         throw 'Static Class';
@@ -253,7 +376,7 @@ class Helpers {
     }
 
     static _prepareSendDataParameters(data, callbacks) {
-        for (const callbackName of ['checkSuccess', 'onload', 'onSuccess', 'onAfter']) {
+        for (const callbackName of ['checkSuccess', 'onFailure', 'onSuccess', 'onAfter']) {
             if (!callbacks.hasOwnProperty(callbackName))
                 callbacks[callbackName] = () => {};
         }
@@ -270,16 +393,45 @@ class Helpers {
         window.location.replace(window.location.href);
     }
 
+    static getCookie(cookieName) {
+        const cookies = document.cookie.split(';');
 
-    static getQueryObject() {
-        return new URLSearchParams(window.location.search);
+        for (const cookieString of cookies) {
+            if (cookieString === '')
+                continue;
+            var [name, value] = cookieString.split('=');
+            name = name.trim();
+            value = value.trim();
+            if (name === cookieName)
+                return value;
+        }
+        return false;
+    }
+
+
+    static getUserdata() {
+        const jsonValue = Helpers.getCookie('userdata');
+        if (jsonValue === false)
+            return false;
+        
+        try {
+            var json = JSON.parse(decodeURIComponent(jsonValue));
+        }
+        catch {
+            return false;
+        }
+
+        return json;
     }
 }
 
 
-
+const fromServer = {
+    userdata: Helpers.getUserdata()
+}
 document.addEventListener('DOMContentLoaded', () => {
     LoginForm.initAll();
     RegisterForm.initAll();
     Logout.initAll();
+    MessageForm.initAll();
 });
