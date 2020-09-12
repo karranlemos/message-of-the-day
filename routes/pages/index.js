@@ -17,6 +17,12 @@ router.get(
 );
 
 router.get(
+    '/reset-password',
+    authHelpers.ensureNotAuthenticated,
+    (req, res) => res.render('reset-password', {layout: 'layouts/entry-layout'})
+);
+
+router.get(
     '/dashboard',
     authHelpers.ensureAuthenticated,
     (req, res) => res.render('dashboard', {id: req.user.id})
