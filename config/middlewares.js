@@ -7,6 +7,10 @@ const passport = require('passport');
 module.exports = (app) => {
     require('./passport')(passport);
 
+    app.use(expressLayouts);
+    app.set('view engine', 'ejs');
+    app.set('layout', 'layouts/layout');
+
     app.use(express.json());
     app.use(express.urlencoded({extended: true}));
     app.use(expressSession({
@@ -14,13 +18,10 @@ module.exports = (app) => {
         resave: true,
         saveUninitialized: true
     }));
+
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(cookieParser());
-
-    app.use(expressLayouts);
-    app.set('view engine', 'ejs');
-    app.set('layout', 'layouts/layout');
 
     app.use((req, res, next) => {
         if (req.isAuthenticated())
@@ -39,5 +40,12 @@ module.exports = (app) => {
             res.clearCookie('userdata');
         
         next();
+    })
+
+    app.use((err, req, res, next) => {
+        req.logout();
+        return res.status(err.status || 500).render('error', {
+            error: 'Internal Server Error'
+        });
     })
 }

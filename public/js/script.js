@@ -36,6 +36,10 @@ class LoginForm {
             checkSuccess: (status) => (status === 200),
             onSuccess: () => Helpers.reloadPage(),
             onFailure: (status, jsonString) => {
+                this.clearMessages();
+                
+                if (status === 500)
+                    return this.addMessage('Internal Server Error...');
                 try {
                     var json = JSON.parse(jsonString);
                 }

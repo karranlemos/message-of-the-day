@@ -11,7 +11,7 @@ module.exports = (passport) => {
 
             if (!authData.authenticated) {
                 if (authData.reason === 'internal error')
-                    return done(err, false);
+                    return done(new Error('Internal Error'), false);
                 return done(null, false, {
                     message: authData.message,
                     reason: authData.reason
@@ -28,7 +28,7 @@ module.exports = (passport) => {
             var userdata = await users.getUser({id});
         }
         catch (err) {
-            return done(err, false);
+            return done(err);
         }
 
         if (userdata.type !== 'success')

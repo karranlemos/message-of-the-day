@@ -7,12 +7,7 @@ var dbValues;
 
 class Database {    
     constructor() {        
-        this.connection = mysql.createConnection(Database.getCredentials());
-        this.connection.connect(err => {
-            if (err)
-                throw 'Could not connect to the database...';
-            console.log('Connected to MySQL database...');
-        });
+        this.connectionPool = mysql.createPool(Database.getCredentials());
     }
 
     query(sql, params, callback=undefined) {
@@ -20,7 +15,7 @@ class Database {
             callback = params;
             params = [];
         }
-        this.connection.query(sql, params, callback);
+        this.connectionPool.query(sql, params, callback);
     }
 
     

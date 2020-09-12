@@ -11,20 +11,6 @@ class Users {
     constructor() {
         // throws async exception
         this.db = Database.getInstance();
-
-        this.checkTable();
-    }
-
-    checkTable() {
-        this.db.query(
-            `SHOW TABLES LIKE '${table}'`,
-            (err, results) => {
-                if (err)
-                    throw `Could not check '${table}'...\n\n${err}`;
-                if (results.length === 0)
-                    throw `Table ${table} doesn't exist.`;
-            }
-        );
     }
 
     getUser(identifiersProvided) {
@@ -37,7 +23,7 @@ class Users {
                 `SELECT id, username, email, password FROM ?? WHERE ${Array(numberOfIdentifiers).fill('?? = ?').join(' OR ')}`,
                 [table, ...this.turnObjectTo1dArray(identifiersValues)],
                 (err, rows) => {
-                    if (err)
+                    if (err) 
                         return reject(err);
                     if (rows.length === 0)
                         return resolve({
