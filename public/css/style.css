@@ -165,7 +165,7 @@
     width: 100%;
 }
 
-.form-container form {
+.form-container form, .form-container .js-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -251,9 +251,15 @@ nav#nav .container button.menu-btn {
     padding: 50px;
 }
 
-.message-form input[name=message] {
-    height: 100px;
+.message-form .message-form-box-container {
+    display: flex;
+    align-items: center;
+}
+
+.message-form .message-form-box {
     width: 100%;
+    min-height: 90px;
+    max-height: 250px;
     
     background-color: rgba(0, 0, 0, 0.1);
     color: black;
@@ -262,9 +268,12 @@ nav#nav .container button.menu-btn {
     
     border: none;
     outline: none;
+
+    overflow: hidden;
+    word-break: break-all;
 }
 
-.message-form input[name=message]:read-only {
+.message-form .message-form-box.readonly {
     background-color: transparent;
     color: black;
 }

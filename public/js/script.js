@@ -252,23 +252,25 @@ class MessageForm {
         if (!this.formContainer.classList.contains(_STATIC_MESSAGE_FORM.className))
             throw 'Wrong class...';
 
-        this.form = this.formContainer.querySelector('form');
-        if (!this.form)
+        this.jsForm = this.formContainer.querySelector('.js-form');
+        if (!this.jsForm)
             throw 'Form not found...';
         
-        this.messageInput = this.form.querySelector('input[name=message]');
+        this.messageInput = this.jsForm.querySelector('.js-message');
         if (!this.messageInput)
-            throw "'input[name=message]' not found...";
+            throw "'.js-message' not found...";
 
-        this.form.addEventListener('submit', this.onSubmit);
+        this.buttonSubmit = this.jsForm.querySelector('.js-button');
+        if (!this.buttonSubmit)
+            throw "'.js-button' not found...";
+
+        this.buttonSubmit.addEventListener('click', this.onSubmit);
         this.messageInput.addEventListener('click', this.editMessage);
 
         this.fetchMessage();
     }
 
-    onSubmit = (e) => {
-        e.preventDefault();
-
+    onSubmit = () => {
         const callbacks = {
             checkSuccess: (status) => (status === 200),
             onSuccess: this.freezeMessage
@@ -277,7 +279,7 @@ class MessageForm {
         const data = {
             method: 'put',
             url: _STATIC_MESSAGE_FORM.formUrl,
-            params: `new_message=${this.messageInput.value}`
+            params: `new_message=${this.messageInput.textContent}`
         };
 
         if (data.url === '')
@@ -302,7 +304,7 @@ class MessageForm {
                 catch {
                     return this.blockForm();
                 }
-                this.messageInput.value = jsonString.message;
+                this.messageInput.textContent = jsonString.message;
                 this.allowEdit()
             },
             onFailure: (status) => {
@@ -318,23 +320,37 @@ class MessageForm {
 
     blockForm = () => {
         this.state.serverError = true;
+        this.freezeMessage();
     };
 
     allowEdit = () => {
         this.state.allowedEdit = true;
-        this.messageInput.placeholder = "Your message here...";
+        // this.messageInput.placeholder = "Your message here...";
     };
 
 
 
     editMessage = () => {
-        if (this.state.allowedEdit)
-            this.messageInput.removeAttribute('readonly');
+        if (!this.state.allowedEdit)
+            return;
+        this.messageInput.setAttribute('contentEditable', 'true');
+        this.messageInput.classList.remove('readonly')
     };
 
     freezeMessage = () => {
-        this.messageInput.setAttribute('readonly', '');
+        this.messageInput.setAttribute('contentEditable', 'false');
+        this.messageInput.classList.add('readonly');
     };
+
+
+    
+    showPlaceholder = (message) => {
+        
+    }
+
+    hidePlaceholder = (message) => {
+        
+    }
 
 
 
