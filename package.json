@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "dev": "set NODE_ENV=development && nodemon index"
+    "dev": "run-script-os",
+    "dev:win32": "set NODE_ENV=development && nodemon index",
+    "dev:linux": "export NODE_ENV=development && nodemon index"
   },
   "author": "",
   "license": "ISC",
@@ -21,6 +23,8 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "nodemon": "^2.0.4",
+    "run-script-os": "^1.1.1"
   }
 }
