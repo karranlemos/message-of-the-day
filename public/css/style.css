@@ -288,7 +288,7 @@ nav#nav .container button.menu-btn {
     outline: none;
 
     overflow: hidden;
-    word-break: break-all;
+    word-break: break-word;
 }
 
 .message-form .message-form-box.readonly {
