@@ -36,9 +36,9 @@ module.exports = {
         const password = req.body.password;
         const email = req.body.email;
 
-        if (username.length < 6)
+        if (username.length < 3)
             return res.status(400).json({
-                message: "Username must have at least 6 characters"
+                message: "Username must have at least 3 characters"
             });
         if (/[^a-zA-Z0-9\-_]/.test(username))
             return res.status(400).json({
