@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV.trim() === 'development') {
+if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
     require('dotenv').config();
 }
 
