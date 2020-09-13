@@ -10,6 +10,9 @@
     --navbar-bg-color: rgba(54, 46, 87, 0.9);
     --dashboard-bg-color: #a98db8;
 
+    --message-bg-color: rgb(88, 79, 132, 0.3);
+    --message-focus-bg-color: rgb(88, 79, 132, 0.5);
+
     --default-fonts: "Noto Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
         "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
         sans-serif;

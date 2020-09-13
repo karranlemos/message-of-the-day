@@ -330,6 +330,7 @@ class MessageForm {
 
     blockForm = () => {
         this.state.serverError = true;
+        this.messageInput.setAttribute('contentEditable', 'false');
         this.showPlaceholder('Failed to connect...');
         this.freezeMessage();
     };
@@ -348,13 +349,13 @@ class MessageForm {
     editMessage = () => {
         if (!this.state.allowedEdit)
             return;
-        this.messageInput.setAttribute('contentEditable', 'true');
+        if (!this.messageInput.classList.contains('readonly'))
+            return;
         this.messageInput.classList.remove('readonly')
         this.hidePlaceholder();
     };
 
     freezeMessage = () => {
-        this.messageInput.setAttribute('contentEditable', 'false');
         this.messageInput.classList.add('readonly');
     };
 

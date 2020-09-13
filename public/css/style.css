@@ -279,7 +279,7 @@ nav#nav .container button.menu-btn {
     min-height: 90px;
     max-height: 250px;
     
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--message-focus-bg-color);
     color: black;
     padding: 20px;
     font-size: 40px;
@@ -292,7 +292,7 @@ nav#nav .container button.menu-btn {
 }
 
 .message-form .message-form-box.readonly {
-    background-color: transparent;
+    background-color: var(--message-bg-color);
     color: black;
 }
 
