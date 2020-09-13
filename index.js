@@ -1,9 +1,7 @@
-if (process.env.NODE_ENV && process.env.NODE_ENV.trim() === 'development') {
-    require('dotenv').config();
-}
-
 const express = require('express');
 const app = express();
+
+require('./config/env')();
 
 require('./config/middlewares')(app);
 app.use('/', require('./routes/index'));
