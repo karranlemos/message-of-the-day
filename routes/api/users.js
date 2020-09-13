@@ -52,6 +52,7 @@ router.post('/register',
         password: true,
         email: true,
     }),
+    authHelpers.validateRegistration,
     async (req, res) => {
         const username = req.body.username;
         const email = req.body.email;

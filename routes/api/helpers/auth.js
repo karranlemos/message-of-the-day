@@ -29,5 +29,36 @@ module.exports = {
             }
             return next();
         };
+    },
+
+    validateRegistration: (req, res, next) => {
+        const username = req.body.username;
+        const password = req.body.password;
+        const email = req.body.email;
+
+        if (username.length < 6)
+            return res.status(400).json({
+                message: "Username must have at least 6 characters"
+            });
+        if (/[^a-zA-Z0-9\-_]/.test(username))
+            return res.status(400).json({
+                message: "Username must only have english letters, digits, '-' and '_'"
+            });
+        
+        if (password.length < 6)
+            return res.status(400).json({
+                message: "Password mut have at least 6 characters"
+            });
+        if (/[^a-zA-Z0-9\-_\*\#\$]/.test(password))
+            return res.status(400).json({
+                message: "Password must only have english letters, digits, '-', '_', '*', '#' and '$'"
+            });
+
+        if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
+            return res.status(400).json({
+                message: "Email invalid"
+            });
+        
+        next();
     }
 }
