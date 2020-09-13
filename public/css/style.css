@@ -171,6 +171,27 @@
     gap: 20px;
 }
 
+.form-container .input-container {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+}
+
+.form-container .input-container .input-placeholder {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: none;
+}
+
+.form-container .input-container .input-placeholder.show {
+    display: inherit;
+}
+
 .form-container .form-item {
     width: 100%;
     padding: 10px;
@@ -251,10 +272,7 @@ nav#nav .container button.menu-btn {
     padding: 50px;
 }
 
-.message-form .message-form-box-container {
-    display: flex;
-    align-items: center;
-}
+
 
 .message-form .message-form-box {
     width: 100%;
@@ -276,6 +294,10 @@ nav#nav .container button.menu-btn {
 .message-form .message-form-box.readonly {
     background-color: transparent;
     color: black;
+}
+
+.message-form .input-placeholder.readonly {
+    color: rgb(29, 29, 29);
 }
 
 .message-form button {

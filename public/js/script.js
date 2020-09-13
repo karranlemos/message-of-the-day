@@ -256,8 +256,16 @@ class MessageForm {
         if (!this.jsForm)
             throw 'Form not found...';
         
+        this.inputContainer = this.jsForm.querySelector('.js-input-container');
+        if (!this.inputContainer)
+            throw "'.js-input-container' not found...";
+
         this.messageInput = this.jsForm.querySelector('.js-message');
         if (!this.messageInput)
+            throw "'.js-message' not found...";
+
+        this.placeholder = this.jsForm.querySelector('.js-input-placeholder');
+        if (!this.placeholder)
             throw "'.js-message' not found...";
 
         this.buttonSubmit = this.jsForm.querySelector('.js-button');
@@ -265,7 +273,7 @@ class MessageForm {
             throw "'.js-button' not found...";
 
         this.buttonSubmit.addEventListener('click', this.onSubmit);
-        this.messageInput.addEventListener('click', this.editMessage);
+        this.inputContainer.addEventListener('click', this.editMessage);
 
         this.fetchMessage();
     }
@@ -290,6 +298,8 @@ class MessageForm {
 
 
     fetchMessage = () => {
+        this.showPlaceholder('Loading...');
+
         const data = {
             method: 'get',
             url: _STATIC_MESSAGE_FORM.formUrl
@@ -304,12 +314,12 @@ class MessageForm {
                 catch {
                     return this.blockForm();
                 }
-                this.messageInput.textContent = jsonString.message;
+                this.setText(jsonString.message);
                 this.allowEdit()
             },
             onFailure: (status) => {
                 if (status === 404)
-                    return this.allowEdit();
+                    return this.allowEdit('Your message here...');
                 
                 this.blockForm()
             }
@@ -320,12 +330,17 @@ class MessageForm {
 
     blockForm = () => {
         this.state.serverError = true;
+        this.showPlaceholder('Failed to connect...');
         this.freezeMessage();
     };
 
-    allowEdit = () => {
+    allowEdit = (placeholder) => {
         this.state.allowedEdit = true;
-        // this.messageInput.placeholder = "Your message here...";
+
+        if (placeholder)
+            this.showPlaceholder(placeholder);
+        else
+            this.hidePlaceholder();
     };
 
 
@@ -335,6 +350,7 @@ class MessageForm {
             return;
         this.messageInput.setAttribute('contentEditable', 'true');
         this.messageInput.classList.remove('readonly')
+        this.hidePlaceholder();
     };
 
     freezeMessage = () => {
@@ -345,11 +361,22 @@ class MessageForm {
 
     
     showPlaceholder = (message) => {
-        
+        this.placeholder.classList.add('show');
+        this.placeholder.textContent = message;
     }
 
-    hidePlaceholder = (message) => {
-        
+    hidePlaceholder = () => {
+        this.placeholder.classList.remove('show');
+        this.placeholder.textContent = '';
+    }
+
+
+
+    setText = (message) => {
+        if (message === '')
+            this.hidePlaceholder();
+        else
+            this.messageInput.textContent = message;
     }
 
 
